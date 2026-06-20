@@ -460,7 +460,8 @@ async function load() {
         <p>${esc(blurb)}</p>
         <div class="meta">
           <span>updated ${new Date(r.updated_at).toLocaleDateString()}</span>
-          <a href="${r.html_url}" target="_blank" rel="noopener">source</a>
+          <a href="${page}">live ↗</a>
+          <a href="${r.html_url}" target="_blank" rel="noopener">source ↗</a>
         </div>`;
       grid.appendChild(card);
     });
