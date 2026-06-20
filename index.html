@@ -54,6 +54,16 @@
 .meta a{color:var(--incident)}
 
 .state{color:var(--contour); font-family:var(--font-data); font-size:var(--step--1); padding:2rem 0}
+
+/* the per-page doodle: a margin decoration, NOT a section of its own. Pulled out
+   of flow and tucked into the right gutter, behind the content (opaque cards cover
+   it; it shows only in the empty margins) — so it never adds a band, shoves the
+   page around, or fights the text. */
+.wrap{position:relative}
+.doodle{
+  position:absolute; top:clamp(72px,10vw,120px); right:0;
+  width:clamp(140px,18vw,260px); margin:0; opacity:.6; z-index:-1; pointer-events:none;
+}
 </style>
 </head>
 <body data-seed="nihilisticiconoclast">
