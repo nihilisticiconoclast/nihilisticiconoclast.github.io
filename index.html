@@ -5,61 +5,138 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects — nihilisticiconoclast</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- the LOCKED layer of the "Tunnel" house design system, served from cuddly-lamp's Pages site -->
-<link rel="stylesheet" href="https://nihilisticiconoclast.github.io/cuddly-lamp/assets/tokens.css">
 <style>
-  /* page layout only — colour / type / edges all come from tokens.css */
-  .masthead{
-    display:flex; align-items:center; justify-content:space-between; gap:1rem;
-    border-bottom:var(--rule); padding-bottom:16px; margin-bottom:clamp(28px,5vw,56px);
-  }
-  .brand{display:flex; align-items:center; gap:.7rem}
-  .brand .wordmark{
-    font-family:var(--font-data); font-size:.78rem; letter-spacing:.16em;
-    text-transform:uppercase; color:var(--contour); line-height:1.3;
-  }
-  .masthead nav a{margin-left:1.3rem; font-family:var(--font-data); font-size:.8rem}
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOCKED LAYER — the "Tunnel" house design system (inlined from cuddly-lamp's
+   tokens.css). Cartography × phase-space. Palette and type are the brand; do
+   not substitute the hex values or the typefaces.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-  .grid{
-    display:grid; gap:1px; margin-top:clamp(28px,5vw,48px);
-    background:color-mix(in srgb, var(--contour) 38%, transparent); /* the gap reads as contour hairlines */
-    border:var(--rule);
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-  }
+:root{
+  /* ── palette — do not substitute ──────────────────────────────────────── */
+  --paper:#EDE7D3;     /* ground / chart paper                                */
+  --ink:#4A3823;       /* primary text                                       */
+  --contour:#7A5C3E;   /* hairline contours, secondary text, captions        */
+  --index:#5A4225;     /* index contours, headings emphasis, borders         */
+  --incident:#3E7C8C;  /* teal — links, the "incident" accent, data viz line */
+  --amber:#E0922B;     /* ONLY where a scalar field runs high (energy/height) */
+  --route:#C0432B;     /* the route — primary action, the single red line     */
 
-  .card{
-    position:relative; display:flex; flex-direction:column;
-    background:var(--paper); padding:1.25rem 1.35rem;
-    transition:background .15s ease;
-  }
-  .card:hover{background:color-mix(in srgb, var(--index) 7%, var(--paper))}
+  /* ── type — do not substitute ─────────────────────────────────────────── */
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-body:"Public Sans",system-ui,-apple-system,sans-serif;
+  --font-data:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 
-  .card h2{
-    font-size:var(--step-1); margin:0 0 .4rem; line-height:1.1;
-  }
-  /* stretched link: the whole card is clickable; the source link sits above it */
-  .card h2 a{color:var(--ink); text-decoration:none}
-  .card:hover h2 a{color:var(--route)}
-  .card h2 a::after{content:""; position:absolute; inset:0}
+  /* ── form ─────────────────────────────────────────────────────────────── */
+  --radius:0;                 /* hard edges. no rounded corners, anywhere.    */
+  --rule:1px solid color-mix(in srgb, var(--contour) 38%, transparent);
+  --measure:64ch;             /* reading width                                */
 
-  .card p{margin:0 0 1.1rem; max-width:none; color:var(--contour); font-size:var(--step--1); flex:1}
+  /* ── type scale ───────────────────────────────────────────────────────── */
+  --step--1:0.84rem;
+  --step-0:1rem;
+  --step-1:1.25rem;
+  --step-2:1.6rem;
+  --step-3:2.4rem;
+  --step-4:clamp(2.6rem, 1.6rem + 4vw, 4.6rem);
+}
 
-  .meta{
-    display:flex; gap:1.1rem; align-items:center;
-    font-family:var(--font-data); font-size:var(--step--1); color:var(--contour);
-    position:relative; z-index:1;
-  }
-  .meta a{color:var(--incident)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:var(--step-0);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
 
-  .state{color:var(--contour); font-family:var(--font-data); font-size:var(--step--1); padding:2rem 0}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:560;line-height:1.05;letter-spacing:-0.005em;margin:0 0 .55em;color:var(--ink)}
+h1{font-size:var(--step-4)}
+h2{font-size:var(--step-3)}
+h3{font-size:var(--step-2)}
+h4{font-size:var(--step-1)}
+p{max-width:var(--measure);margin:0 0 1em}
+strong{font-weight:600}
+
+a{color:var(--incident);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--route)}
+
+.eyebrow{font-family:var(--font-body);font-size:var(--step--1);letter-spacing:.18em;text-transform:uppercase;color:color-mix(in srgb,var(--ink) 68%,transparent);margin:0 0 1rem}
+.lede{font-size:var(--step-1);line-height:1.5;max-width:56ch;color:color-mix(in srgb,var(--ink) 92%,transparent)}
+.data,.caption{font-family:var(--font-data);font-size:var(--step--1)}
+.caption{color:var(--contour)}
+
+/* ── the signature ──────────────────────────────────────────────────────── */
+.sig{display:block;width:clamp(72px,8vw,116px);height:auto;line-height:0}
+.sig svg{width:100%;height:auto;display:block}
+.sig-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06}
+.sig-bg svg{width:100%;height:100%;display:block;object-fit:cover}
+
+/* page scaffold */
+.wrap{max-width:1120px;margin:0 auto;padding:clamp(28px,5vw,72px)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE LAYER — layout only; all colour / type / edges come from the tokens.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.masthead{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  border-bottom:var(--rule); padding-bottom:16px; margin-bottom:clamp(28px,5vw,56px);
+}
+.brand{display:flex; align-items:center; gap:.7rem}
+.brand .wordmark{
+  font-family:var(--font-data); font-size:.78rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--contour); line-height:1.3;
+}
+.masthead nav a{margin-left:1.3rem; font-family:var(--font-data); font-size:.8rem}
+
+.grid{
+  display:grid; gap:1px; margin-top:clamp(28px,5vw,48px);
+  background:color-mix(in srgb, var(--contour) 38%, transparent); /* the gap reads as contour hairlines */
+  border:var(--rule);
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.card{
+  position:relative; display:flex; flex-direction:column;
+  background:var(--paper); padding:1.25rem 1.35rem;
+  transition:background .15s ease;
+}
+.card:hover{background:color-mix(in srgb, var(--index) 7%, var(--paper))}
+
+.card h2{font-size:var(--step-1); margin:0 0 .4rem; line-height:1.1}
+/* stretched link: the whole card is clickable; the source link sits above it */
+.card h2 a{color:var(--ink); text-decoration:none}
+.card:hover h2 a{color:var(--route)}
+.card h2 a::after{content:""; position:absolute; inset:0}
+
+.card p{margin:0 0 1.1rem; max-width:none; color:var(--contour); font-size:var(--step--1); flex:1}
+
+.meta{
+  display:flex; gap:1.1rem; align-items:center;
+  font-family:var(--font-data); font-size:var(--step--1); color:var(--contour);
+  position:relative; z-index:1;
+}
+.meta a{color:var(--incident)}
+
+.state{color:var(--contour); font-family:var(--font-data); font-size:var(--step--1); padding:2rem 0}
 </style>
 </head>
 <body data-seed="nihilisticiconoclast">
+  <!-- faint full-bleed contour watermark (variant: background) -->
+  <div class="sig-bg" id="sigbg"></div>
+
   <main class="wrap">
 
     <div class="masthead">
       <div class="brand">
-        <!-- the signature: a SMALL masthead mark, the recurring doodle -->
+        <!-- the brand logo: a SMALL seeded masthead mark -->
         <span class="sig" id="sig"></span>
         <span class="wordmark">Projects<br>nihilisticiconoclast</span>
       </div>
@@ -75,66 +152,292 @@
 
   </main>
 
-  <script>
-    const USER = "nihilisticiconoclast";
-    // Repos to never show (the home repo itself, plus anything you want hidden):
-    const EXCLUDE = new Set([`${USER}.github.io`]);
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   tunnel-figure.js — seeded signature generator (inlined from cuddly-lamp).
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  if (root) root.TunnelFigure = api;
+})(typeof window !== "undefined" ? window
+   : (typeof globalThis !== "undefined" ? globalThis : this), function () {
 
-    const prettify = s => s.replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-    const esc = s => String(s).replace(/[&<>"']/g, c =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const PAL = {
+    paper:    "#EDE7D3",
+    ink:      "#4A3823",
+    contour:  "#7A5C3E",
+    index:    "#5A4225",
+    incident: "#3E7C8C",
+    amber:    "#E0922B",
+    route:    "#C0432B",
+  };
 
-    async function load() {
-      const grid = document.getElementById("grid");
-      try {
-        const res = await fetch(
-          `https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`,
-          { headers: { Accept: "application/vnd.github+json" } }
-        );
-        if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
-        const repos = await res.json();
+  function hashSeed(str) {
+    str = String(str);
+    let h = 2166136261 >>> 0;            // FNV-1a
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
 
-        // The "automatic" contract: public + Pages enabled + not a fork/archive.
-        const visible = repos.filter(r =>
-          r.has_pages && !r.fork && !r.archived && !EXCLUDE.has(r.name)
-        );
+  function tunnelFigureSVG(seed, opts) {
+    opts = opts || {};
+    const W = opts.width  || 640;
+    const H = opts.height || 640;
+    const variant = opts.variant || "mark";       // 'mark' | 'background' | 'full'
+    const opK = variant === "background" ? 0.5 : 1;
+    const rng = mulberry32(hashSeed(seed == null ? "tunnel" : seed));
+    const rand = (a, b) => a + (b - a) * rng();
 
-        if (!visible.length) {
-          grid.innerHTML = `<p class="state">No published projects yet — enable Pages on a repo to add it here.</p>`;
-          return;
+    const ridgeX     = rand(0.42, 0.58);
+    const ridgeWidth = rand(0.065, 0.115);
+    const ridgeBend  = rand(-0.18, 0.18);
+    const ridgeTilt  = rand(-0.45, 0.45);
+    const ridgeH     = rand(1.00, 1.35);
+    const bx1 = rand(0.13, 0.30), by1 = rand(0.34, 0.66);
+    const bx2 = rand(0.70, 0.87), by2 = rand(0.34, 0.66);
+
+    function fieldAt(u, v) {
+      const cx = ridgeX + ridgeBend * Math.sin((v - 0.5) * Math.PI) + ridgeTilt * (v - 0.5);
+      const d  = u - cx;
+      let f = ridgeH * Math.exp(-(d * d) / (2 * ridgeWidth * ridgeWidth));
+      f -= 0.55 * Math.exp(-(((u - bx1) ** 2 + (v - by1) ** 2) / (2 * 0.10 * 0.10)));
+      f -= 0.45 * Math.exp(-(((u - bx2) ** 2 + (v - by2) ** 2) / (2 * 0.10 * 0.10)));
+      f += 0.12 * (v - 0.5);
+      return f;
+    }
+
+    const NX = 72, NY = 72;
+    const field = new Float64Array(NX * NY);
+    let fmin = Infinity, fmax = -Infinity;
+    for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+      const val = fieldAt(i / (NX - 1), j / (NY - 1));
+      field[j * NX + i] = val;
+      if (val < fmin) fmin = val;
+      if (val > fmax) fmax = val;
+    }
+
+    const pad = 40;
+    const gx = i => pad + (i / (NX - 1)) * (W - 2 * pad);
+    const gy = j => pad + (j / (NY - 1)) * (H - 2 * pad);
+
+    function march(level) {
+      const segs = [];
+      const v = (i, j) => field[j * NX + i];
+      for (let j = 0; j < NY - 1; j++) for (let i = 0; i < NX - 1; i++) {
+        const tl = v(i, j), tr = v(i + 1, j), br = v(i + 1, j + 1), bl = v(i, j + 1);
+        let idx = 0;
+        if (tl > level) idx |= 8;
+        if (tr > level) idx |= 4;
+        if (br > level) idx |= 2;
+        if (bl > level) idx |= 1;
+        if (idx === 0 || idx === 15) continue;
+        const f = (a, b) => (level - a) / (b - a);
+        const T = [i + f(tl, tr), j];
+        const R = [i + 1, j + f(tr, br)];
+        const B = [i + f(bl, br), j + 1];
+        const L = [i, j + f(tl, bl)];
+        switch (idx) {
+          case 1: case 14: segs.push([L, B]); break;
+          case 2: case 13: segs.push([B, R]); break;
+          case 3: case 12: segs.push([L, R]); break;
+          case 4: case 11: segs.push([T, R]); break;
+          case 6: case 9:  segs.push([T, B]); break;
+          case 7: case 8:  segs.push([L, T]); break;
+          case 5:  segs.push([L, T]); segs.push([B, R]); break;
+          case 10: segs.push([T, R]); segs.push([L, B]); break;
         }
+      }
+      return segs;
+    }
+    function segsToPath(segs) {
+      let d = "";
+      for (const s of segs) {
+        d += "M" + gx(s[0][0]).toFixed(1) + " " + gy(s[0][1]).toFixed(1)
+           + "L" + gx(s[1][0]).toFixed(1) + " " + gy(s[1][1]).toFixed(1);
+      }
+      return d;
+    }
 
-        grid.innerHTML = "";
-        for (const r of visible) {
-          const page = `https://${USER}.github.io/${r.name}/`;
-          const card = document.createElement("article");
-          card.className = "card";
-          card.innerHTML = `
-            <h2><a href="${page}">${esc(prettify(r.name))}</a></h2>
-            <p>${esc(r.description || "No description set.")}</p>
-            <div class="meta">
-              <span>updated ${new Date(r.updated_at).toLocaleDateString()}</span>
-              <a href="${r.html_url}" target="_blank" rel="noopener">source</a>
-            </div>`;
-          grid.appendChild(card);
+    const NLEV = 8;
+    const indexK = Math.round(NLEV * 0.45);
+    let contourSVG = "";
+    for (let k = 1; k < NLEV; k++) {
+      const level = fmin + (k / NLEV) * (fmax - fmin);
+      const d = segsToPath(march(level));
+      if (!d) continue;
+      const t = k / NLEV;
+      let stroke = PAL.contour, w = 1.1, op = 0.62;
+      if (t > 0.72)          { stroke = PAL.amber; w = 1.4; op = 0.9;  }
+      else if (k === indexK) { stroke = PAL.index; w = 1.7; op = 0.85; }
+      contourSVG += '<path d="' + d + '" fill="none" stroke="' + stroke
+                 + '" stroke-width="' + w + '" opacity="' + (op * opK).toFixed(2) + '"/>';
+    }
+
+    let defs = "", routeSVG = "", insetSVG = "", labelSVG = "";
+
+    if (variant !== "background") {
+      defs = '<defs><marker id="tnl-ar" markerWidth="9" markerHeight="9" refX="6" refY="4.5" '
+           + 'orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="' + PAL.route + '"/></marker></defs>';
+
+      const crestLevel = fmin + 0.72 * (fmax - fmin);
+      const steps = 60;
+      const route = [];
+      for (let s = 0; s <= steps; s++) {
+        const tt = s / steps;
+        const u = bx1 + (bx2 - bx1) * tt;
+        const v = by1 + (by2 - by1) * tt + 0.04 * Math.sin(tt * Math.PI);
+        route.push([u, v, fieldAt(u, v)]);
+      }
+      let entry = -1, exit = -1;
+      for (let s = 0; s < route.length; s++) {
+        if (route[s][2] > crestLevel) { if (entry < 0) entry = s; exit = s; }
+      }
+      const rx = p => gx(p[0] * (NX - 1));
+      const ry = p => gy(p[1] * (NY - 1));
+      function polyD(a, b) {
+        let d = "";
+        for (let s = a; s <= b; s++) d += (s === a ? "M" : "L") + rx(route[s]).toFixed(1) + " " + ry(route[s]).toFixed(1) + " ";
+        return d;
+      }
+      if (entry < 0) {
+        routeSVG = '<path d="' + polyD(0, steps) + '" fill="none" stroke="' + PAL.route
+                 + '" stroke-width="2.2" marker-end="url(#tnl-ar)"/>';
+      } else {
+        routeSVG += '<path d="' + polyD(0, entry) + '" fill="none" stroke="' + PAL.route + '" stroke-width="2.2"/>';
+        routeSVG += '<path d="' + polyD(entry, exit) + '" fill="none" stroke="' + PAL.route
+                  + '" stroke-width="2" stroke-dasharray="6 6" opacity="0.95"/>';
+        routeSVG += '<path d="' + polyD(exit, steps) + '" fill="none" stroke="' + PAL.route
+                  + '" stroke-width="2.2" marker-end="url(#tnl-ar)"/>';
+        const portal = s => {
+          const x = rx(route[s]).toFixed(1), y = ry(route[s]);
+          return '<line x1="' + x + '" y1="' + (y - 9).toFixed(1) + '" x2="' + x + '" y2="'
+               + (y + 9).toFixed(1) + '" stroke="' + PAL.route + '" stroke-width="2.2"/>';
+        };
+        routeSVG += portal(entry) + portal(exit);
+      }
+
+      if (variant === "full") {
+        const barrierWidth = (entry < 0) ? 0.18 : (route[exit][0] - route[entry][0]);
+        const kappa  = 2.0 + 12.0 * Math.max(0.05, barrierWidth);
+        const wl     = rand(26, 40);
+        const insetW = 280, insetX = pad + 6, insetY = H - 58, amp0 = 30;
+        const bX0 = insetW * 0.42;
+        const bW  = insetW * Math.min(0.34, Math.max(0.16, barrierWidth * 1.6));
+        const ampAt = x => {
+          if (x < bX0)      return amp0;
+          if (x < bX0 + bW) return amp0 * Math.exp(-(kappa / insetW) * (x - bX0) * 3.2);
+          return amp0 * Math.exp(-(kappa / insetW) * bW * 3.2);
+        };
+        let wkb = "M" + insetX.toFixed(1) + " " + insetY.toFixed(1);
+        for (let x = 0; x <= insetW; x += 4) {
+          const y = insetY - ampAt(x) * Math.sin((x / wl) * 2 * Math.PI);
+          wkb += "L" + (insetX + x).toFixed(1) + " " + y.toFixed(1);
         }
-      } catch (err) {
-        grid.innerHTML = `<p class="state">Couldn't load projects (${esc(err.message)}).
-          The unauthenticated GitHub API allows 60 requests/hour per IP — if that's the cause, it'll recover shortly.</p>`;
+        insetSVG =
+            '<rect x="' + (insetX + bX0).toFixed(1) + '" y="' + (insetY - amp0 - 6).toFixed(1)
+              + '" width="' + bW.toFixed(1) + '" height="' + (2 * amp0 + 12).toFixed(1)
+              + '" fill="' + PAL.contour + '" opacity="0.08"/>'
+          + '<line x1="' + insetX + '" y1="' + insetY + '" x2="' + (insetX + insetW) + '" y2="' + insetY
+              + '" stroke="' + PAL.contour + '" stroke-width="0.8" opacity="0.4"/>'
+          + '<path d="' + wkb + '" fill="none" stroke="' + PAL.incident + '" stroke-width="2"/>'
+          + '<text x="' + (insetX + bX0).toFixed(1) + '" y="' + (insetY - amp0 - 12).toFixed(1)
+              + '" fill="' + PAL.amber + '" font-family="IBM Plex Mono, monospace" font-size="12">'
+              + 'ψ ∝ e^(−κx)</text>';
+
+        const gref = "SO " + Math.floor(rand(80, 90)) + " "
+                   + String(Math.floor(rand(0, 10))) + String(Math.floor(rand(0, 10)));
+        const spot = Math.floor(rand(180, 420));
+        labelSVG =
+            '<text x="' + pad + '" y="26" fill="' + PAL.contour + '" opacity="0.75" '
+              + 'font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="1">' + gref + '</text>'
+          + '<text x="' + (W - pad) + '" y="26" text-anchor="end" fill="' + PAL.contour + '" opacity="0.75" '
+              + 'font-family="IBM Plex Mono, monospace" font-size="12">▲ ' + spot + 'm</text>'
+          + '<text x="' + pad + '" y="' + (H - 14) + '" fill="' + PAL.contour + '" opacity="0.7" '
+              + 'font-family="IBM Plex Mono, monospace" font-size="12">barrier crossing — the amplitude survives the wall</text>';
       }
     }
 
-    load();
-  </script>
+    const isDecor = variant !== "full";
+    const open = '<svg viewBox="0 0 ' + W + ' ' + H + '" fill="none" xmlns="http://www.w3.org/2000/svg" '
+      + (isDecor ? 'aria-hidden="true" focusable="false"'
+                 : 'role="img" aria-label="Contour terrain with a route tunnelling through a barrier ridge"')
+      + '>';
 
-  <!-- the seeded signature mark, served from cuddly-lamp's Pages site -->
-  <script src="https://nihilisticiconoclast.github.io/cuddly-lamp/assets/tunnel-figure.js"></script>
-  <script>
-    // small, silent mark, seeded from the page (default 'mark' variant)
-    const seed = document.body.dataset.seed || location.pathname || document.title;
-    if (window.TunnelFigure) {
-      document.getElementById("sig").innerHTML = TunnelFigure.tunnelFigureSVG(seed);
+    return open + defs + contourSVG + routeSVG + insetSVG + labelSVG + "</svg>";
+  }
+
+  return { tunnelFigureSVG, palette: PAL, _hashSeed: hashSeed };
+});
+</script>
+
+<script>
+/* ── live repo cards ──────────────────────────────────────────────────────── */
+const USER = "nihilisticiconoclast";
+// Repos to never show (the home repo itself, plus anything you want hidden):
+const EXCLUDE = new Set([`${USER}.github.io`]);
+
+const prettify = s => s.replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+const esc = s => String(s).replace(/[&<>"']/g, c =>
+  ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function load() {
+  const grid = document.getElementById("grid");
+  try {
+    const res = await fetch(
+      `https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`,
+      { headers: { Accept: "application/vnd.github+json" } }
+    );
+    if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
+    const repos = await res.json();
+
+    // The "automatic" contract: public + Pages enabled + not a fork/archive.
+    const visible = repos.filter(r =>
+      r.has_pages && !r.fork && !r.archived && !EXCLUDE.has(r.name)
+    );
+
+    if (!visible.length) {
+      grid.innerHTML = `<p class="state">No published projects yet — enable Pages on a repo to add it here.</p>`;
+      return;
     }
-  </script>
+
+    grid.innerHTML = "";
+    for (const r of visible) {
+      const page = `https://${USER}.github.io/${r.name}/`;
+      const card = document.createElement("article");
+      card.className = "card";
+      card.innerHTML = `
+        <h2><a href="${page}">${esc(prettify(r.name))}</a></h2>
+        <p>${esc(r.description || "No description set.")}</p>
+        <div class="meta">
+          <span>updated ${new Date(r.updated_at).toLocaleDateString()}</span>
+          <a href="${r.html_url}" target="_blank" rel="noopener">source</a>
+        </div>`;
+      grid.appendChild(card);
+    }
+  } catch (err) {
+    grid.innerHTML = `<p class="state">Couldn't load projects (${esc(err.message)}).
+      The unauthenticated GitHub API allows 60 requests/hour per IP — if that's the cause, it'll recover shortly.</p>`;
+  }
+}
+
+load();
+
+/* ── seeded signatures: the small masthead mark + the faint background wash ── */
+const seed = document.body.dataset.seed || location.pathname || document.title;
+document.getElementById("sig").innerHTML   = TunnelFigure.tunnelFigureSVG(seed);
+document.getElementById("sigbg").innerHTML = TunnelFigure.tunnelFigureSVG(seed, { variant: "background" });
+</script>
 </body>
 </html>
