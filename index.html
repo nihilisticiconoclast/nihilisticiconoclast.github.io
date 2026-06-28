@@ -55,6 +55,27 @@
 
 .state{color:var(--contour); font-family:var(--font-data); font-size:var(--step--1); padding:2rem 0}
 
+.search-row{
+  display:flex; align-items:center; gap:1rem; margin-top:clamp(20px,4vw,36px);
+}
+.search-row input[type="search"]{
+  flex:1; padding:.55rem .75rem;
+  background:var(--paper); color:var(--ink);
+  border:var(--rule); outline:none;
+  font-family:var(--font-data); font-size:var(--step--1);
+  appearance:none; -webkit-appearance:none;
+}
+.search-row input[type="search"]:focus{
+  border-color:var(--route);
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--route) 25%, transparent);
+}
+.search-row input[type="search"]::placeholder{color:var(--contour); opacity:1}
+.search-count{
+  font-family:var(--font-data); font-size:var(--step--1); color:var(--contour);
+  white-space:nowrap;
+}
+.card[hidden]{display:none}
+
 /* the per-page doodle: a margin decoration placed at RANDOM. JS drops it into one
    of six edge slots on load — left/right × top/middle/bottom — bleeding into the
    page gutter and sitting behind the content, so it never lands directly behind the
@@ -83,6 +104,11 @@ body{position:relative}
 
     <!-- per-page doodle: a seeded scribble, off to the right, between sections -->
     <div class="doodle doodle--right doodle--bleed-right" id="doodle"></div>
+
+    <div class="search-row">
+      <input type="search" id="search" placeholder="Search readmes…" autocomplete="off" aria-label="Search repositories">
+      <span id="search-count" class="search-count" aria-live="polite"></span>
+    </div>
 
     <div id="grid" class="grid"><p class="state">Loading…</p></div>
 
@@ -128,14 +154,15 @@ function firstParagraph(md) {
   return text;
 }
 
-async function readmeBlurb(r) {
+async function readmeFetch(r) {
   try {
     const res = await fetch(
       `https://raw.githubusercontent.com/${USER}/${r.name}/${r.default_branch}/README.md`
     );
-    if (!res.ok) return null;
-    return firstParagraph(await res.text());
-  } catch { return null; }
+    if (!res.ok) return { blurb: null, full: "" };
+    const md = await res.text();
+    return { blurb: firstParagraph(md), full: md };
+  } catch { return { blurb: null, full: "" }; }
 }
 
 async function load() {
@@ -159,25 +186,46 @@ async function load() {
     }
 
     grid.innerHTML = "";
-    const blurbs = await Promise.all(visible.map(readmeBlurb));
+    const fetched = await Promise.all(visible.map(readmeFetch));
     visible.forEach((r, i) => {
       const page = `https://${USER}.github.io/${r.name}/`;
-      const blurb = blurbs[i] || r.description || "No description set.";
+      const { blurb, full } = fetched[i];
+      const displayBlurb = blurb || r.description || "No description set.";
       const card = document.createElement("article");
       card.className = "card";
+      // searchtext combines name, description, and full README for matching
+      card.dataset.searchtext = [r.name, r.description || "", full].join(" ").toLowerCase();
       card.innerHTML = `
         <h2><a href="${page}">${esc(prettify(r.name))}</a></h2>
-        <p>${esc(blurb)}</p>
+        <p>${esc(displayBlurb)}</p>
         <div class="meta">
           <span>updated ${new Date(r.updated_at).toLocaleDateString()}</span>
           <a href="${r.html_url}" target="_blank" rel="noopener">source</a>
         </div>`;
       grid.appendChild(card);
     });
+    initSearch(visible.length);
   } catch (err) {
     grid.innerHTML = `<p class="state">Couldn't load projects (${esc(err.message)}).
       The unauthenticated GitHub API allows 60 requests/hour per IP — if that's the cause, it'll recover shortly.</p>`;
   }
+}
+
+function initSearch(total) {
+  const input = document.getElementById("search");
+  const countEl = document.getElementById("search-count");
+  function filter() {
+    const q = input.value.trim().toLowerCase();
+    const cards = document.querySelectorAll("#grid .card");
+    let shown = 0;
+    cards.forEach(card => {
+      const match = !q || card.dataset.searchtext.includes(q);
+      card.hidden = !match;
+      if (match) shown++;
+    });
+    countEl.textContent = q ? `${shown} of ${total}` : "";
+  }
+  input.addEventListener("input", filter);
 }
 
 load();
